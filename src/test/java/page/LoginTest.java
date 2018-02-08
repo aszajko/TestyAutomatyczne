@@ -7,15 +7,14 @@ import web.login.LoginPage;
 
 public class LoginTest extends FunTest {
 
-    HomePage homePage;
-    LoginPage loginPage;
+    private HomePage homePage;
+    private LoginPage loginPage;
 
     @Test
     public void loginSuccessfulTest() {
         homePage = HomePage.openByURL();
         homePage.przejdzDoStronyLogowania();
         loginPage = LoginPage.openByPage();
-
     }
 
     @Test
@@ -23,6 +22,7 @@ public class LoginTest extends FunTest {
         homePage = HomePage.openByURL();
         homePage.przejdzDoStronyKontaktowej();
     }
+
     @Test
     public void loginFailTestByOnlyEmail () {
         homePage = HomePage.openByURL();

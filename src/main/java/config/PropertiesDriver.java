@@ -8,7 +8,7 @@ public final class PropertiesDriver {
     public static final String CHROME_OPTIONS_ENABLE_AUTOMATION = "enable-automation";
     public static final String CHROME_DRIVER_DISABLE_INFOBARS = "--disable-infobars";
 
-    public static final String FIREFOX_DRIVER_LOCATION = "C:\\tools\\geckodriver.exe";
+    public static final String FIREFOX_DRIVER_LOCATION = "/usr/local/bin/geckodriver";
     public static final String FIREFOX_DRIVER_PROPERTY= "webdriver.gecko.driver";
 
     private PropertiesDriver() {
