@@ -1,6 +1,7 @@
 package base;
 
-import annotation.AppFindBy;
+import annotation.AppBy;
+import annotation.PageFinder;
 import driverManager.DriverManager;
 import lombok.Getter;
 import org.openqa.selenium.By;
@@ -8,7 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import web.test.TestPage;
+import utlis.FindByUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -44,7 +45,7 @@ public abstract class BasePage {
      * Konsntruktor Twojej klasy 'BasePage'
      */
     public BasePage(){
-        wait = new WebDriverWait(driver, 10 );
+        wait = new WebDriverWait(driver, 20 );
     }
     /**
      * Metoda hermetyzująca mechanizm znajdowania elementu na stronie
@@ -66,7 +67,6 @@ public abstract class BasePage {
         findElement(by).sendKeys(text);
     }
 
-
     protected static <T extends BasePage> T loadPage(Class<T> tClass) {
         T page;
         try {
@@ -75,11 +75,22 @@ public abstract class BasePage {
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        invokeBy(page);
+        waitForPageLoaded(page);
+        invokeFieldBy(page);
         return page;
     }
 
-    private static <T extends BasePage> void invokeBy(T page) {
+    private static <T extends BasePage> void waitForPageLoaded(T page) {
+        Annotation[] annotations = page.getClass().getAnnotations();
+        for (Annotation annotation: annotations) {
+            if(annotation instanceof PageFinder) {
+            By by = FindByUtils.buildBy(annotation);
+            wait.until(ExpectedConditions.visibilityOf(findElement(by)));
+           }
+        }
+    }
+
+    private static <T extends BasePage> void invokeFieldBy(T page) {
 
         for (Field field : page.getClass().getDeclaredFields()) {
 
@@ -87,12 +98,12 @@ public abstract class BasePage {
 
             for (Annotation annotation : annotations) {
 
-                if (annotation instanceof AppFindBy) {
-                    AppFindBy appFindBy = field.getAnnotation(AppFindBy.class);
+                if (annotation instanceof AppBy) {
+                    AppBy appFindBy = field.getAnnotation(AppBy.class);
                     boolean accessible = field.isAccessible();
                     try {
                         field.setAccessible(true);
-                        field.set(page, AppFindBy.AppFindByBuilder.getBy(appFindBy));
+                        field.set(page, FindByUtils.buildBy(appFindBy));
                         field.setAccessible(accessible);
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException(e);
