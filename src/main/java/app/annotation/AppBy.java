@@ -1,6 +1,6 @@
-package annotation;
+package app.annotation;
 
-import enums.AppByEnum;
+import app.enums.AppByEnum;
 import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)

@@ -1,6 +1,6 @@
-package annotation;
+package app.annotation;
 
-import enums.AppByEnum;
+import app.enums.AppUrl;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface PageFinder {
-    AppByEnum by() default AppByEnum.UNSET;
-    String using() default "";
+public @interface UrlMapping {
+    AppUrl url() default AppUrl.FRONT;
+    String p() default "/";
 }

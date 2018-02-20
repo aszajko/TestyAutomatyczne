@@ -1,5 +1,7 @@
 package listener;
 
+import app.enums.AppBrowser;
+import app.AppInitializer;
 import org.testng.*;
 
 public class AppListner implements ITestListener, ISuiteListener, IInvokedMethodListener {
@@ -41,7 +43,8 @@ public class AppListner implements ITestListener, ISuiteListener, IInvokedMethod
     }
 
     public void onStart(ITestContext iTestContext) {
-
+        AppInitializer appInitializer = new AppInitializer();
+        appInitializer.addFromSystemProperty(System.getProperty("browser"), AppBrowser.FIREFOX);
     }
 
     public void onFinish(ITestContext iTestContext) {

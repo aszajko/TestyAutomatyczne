@@ -1,16 +1,23 @@
 package base;
 
-import driverManager.DriverManager;
-import org.testng.annotations.AfterClass;
-import org.junit.BeforeClass;
+import app.driverManager.DriverManager;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 
 public class FunTest {
 
-    @BeforeClass
-    public void setUp(){
+    @BeforeTest
+    public void setUp() {
+        DriverManager.initDriver();
     }
 
-    @AfterClass
+    @AfterMethod
+    public void clear() {
+        DriverManager.getDriver().manage().deleteAllCookies();
+    }
+
+    @AfterTest
     public void closeDown() {
         DriverManager.getDriver().close();
     }

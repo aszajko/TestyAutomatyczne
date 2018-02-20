@@ -1,8 +1,7 @@
-package utlis;
+package app.utlis;
 
-import annotation.AppBy;
-import annotation.PageFinder;
-import enums.AppByEnum;
+import app.annotation.AppBy;
+import app.enums.AppByEnum;
 import org.openqa.selenium.By;
 
 import java.lang.annotation.Annotation;
@@ -14,19 +13,9 @@ public class FindByUtils {
           AppBy  by = (AppBy) appBy;
           return createByAppBy(by);
         }
-        if(appBy instanceof PageFinder) {
-            PageFinder by = (PageFinder) appBy;
-            return createByPageFinder(by);
-        }
         else {
             throw new RuntimeException("This annatotion : " + appBy + "not creating By");
         }
-    }
-
-    private static By createByPageFinder(PageFinder appBy) {
-        AppByEnum byEnum = appBy.by();
-        String use = appBy.using();
-        return getBy(byEnum,use);
     }
 
     private static By createByAppBy(AppBy appBy) {
